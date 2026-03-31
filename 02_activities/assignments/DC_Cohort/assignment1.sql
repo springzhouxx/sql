@@ -6,7 +6,8 @@
 --SELECT
 /* 1. Write a query that returns everything in the customer table. */
 --QUERY 1
-
+SELECT *
+FROM customer;
 
 
 
@@ -16,7 +17,10 @@
 /* 2. Write a query that displays all of the columns and 10 rows from the customer table, 
 sorted by customer_last_name, then customer_first_ name. */
 --QUERY 2
-
+SELECT *
+FROM customer
+ORDER BY customer_last_name, customer_first_name
+LIMIT 10;
 
 
 
@@ -26,6 +30,7 @@ sorted by customer_last_name, then customer_first_ name. */
 --WHERE
 /* 1. Write a query that returns all customer purchases of product IDs 4 and 9. 
 Limit to 25 rows of output. */
+<<<<<<< Updated upstream
 --QUERY 3
 
 
@@ -33,6 +38,12 @@ Limit to 25 rows of output. */
 
 --END QUERY
 
+=======
+SELECT *
+FROM customer_purchases
+WHERE product_id IN (4, 9)
+LIMIT 25;
+>>>>>>> Stashed changes
 
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
@@ -41,8 +52,16 @@ filtered by customer IDs between 8 and 10 (inclusive) using either:
 	2.  one condition using BETWEEN
 Limit to 25 rows of output.
 */
+<<<<<<< Updated upstream
 --QUERY 4
 
+=======
+--QUERY 3
+SELECT *, quantity*cost_to_customer_per_qty AS price
+FROM customer_purchases
+WHERE customer_id BETWEEN 8 AND 10
+LIMIT 25;
+>>>>>>> Stashed changes
 
 
 
@@ -54,8 +73,17 @@ Limit to 25 rows of output.
 Using the product table, write a query that outputs the product_id and product_name
 columns and add a column called prod_qty_type_condensed that displays the word “unit” 
 if the product_qty_type is “unit,” and otherwise displays the word “bulk.” */
+<<<<<<< Updated upstream
 --QUERY 5
 
+=======
+--QUERY 4
+SELECT product_id, product_name, 
+CASE WHEN product_qty_type = 'unit' THEN 'unit'
+		 ELSE 'bulk'
+	END as prod_qty_type_condensed
+FROM product;
+>>>>>>> Stashed changes
 
 
 
@@ -65,8 +93,20 @@ if the product_qty_type is “unit,” and otherwise displays the word “bulk.�
 /* 2. We want to flag all of the different types of pepper products that are sold at the market. 
 add a column to the previous query called pepper_flag that outputs a 1 if the product_name 
 contains the word “pepper” (regardless of capitalization), and otherwise outputs 0. */
+<<<<<<< Updated upstream
 --QUERY 6
 
+=======
+--QUERY 5
+SELECT product_id, product_name, 
+CASE WHEN product_qty_type = 'unit' THEN 'unit'
+		 ELSE 'bulk'
+	END as prod_qty_type_condensed
+,CASE WHEN LOWER(product_name) LIKE '%pepper%' THEN 1
+		 ELSE 0
+	END as pepper_flag
+FROM product;
+>>>>>>> Stashed changes
 
 
 
@@ -77,8 +117,18 @@ contains the word “pepper” (regardless of capitalization), and otherwise out
 /* 1. Write a query that INNER JOINs the vendor table to the vendor_booth_assignments table on the 
 vendor_id field they both have in common, and sorts the result by market_date, then vendor_name.
 Limit to 24 rows of output. */
+<<<<<<< Updated upstream
 --QUERY 7
 
+=======
+--QUERY 6
+SELECT *
+FROM vendor as v
+INNER JOIN vendor_booth_assignments as vba
+	ON v.vendor_id = vba.vendor_id
+ORDER BY market_date, vendor_name
+LIMIT 24;
+>>>>>>> Stashed changes
 
 
 
@@ -91,8 +141,16 @@ Limit to 24 rows of output. */
 -- AGGREGATE
 /* 1. Write a query that determines how many times each vendor has rented a booth 
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
+<<<<<<< Updated upstream
 --QUERY 8
 
+=======
+--QUERY 7
+SELECT vendor_id, 
+count(vendor_id) AS vendor_rent_booth
+FROM vendor_booth_assignments
+GROUP BY vendor_id;
+>>>>>>> Stashed changes
 
 
 
@@ -104,8 +162,22 @@ sticker to everyone who has ever spent more than $2000 at the market. Write a qu
 of customers for them to give stickers to, sorted by last name, then first name. 
 
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
+<<<<<<< Updated upstream
 --QUERY 9
+=======
+--QUERY 8
+SELECT c.customer_id,
+customer_first_name, customer_last_name,
+SUM(quantity*cost_to_customer_per_qty) as total_spend
+>>>>>>> Stashed changes
 
+FROM customer_purchases as cp
+INNER JOIN customer as c
+	ON cp.customer_id = c.customer_id
+GROUP BY c.customer_id,
+customer_first_name, customer_last_name
+HAVING  total_spend > 2000
+ORDER BY customer_last_name, customer_first_name;
 
 
 
@@ -123,7 +195,18 @@ When inserting the new vendor, you need to appropriately align the columns to be
 -> To insert the new row use VALUES, specifying the value you want for each column:
 VALUES(col1,col2,col3,col4,col5) 
 */
+<<<<<<< Updated upstream
 --QUERY 10
+=======
+--QUERY 9
+DROP TABLE IF EXISTS temp.new_vendor;
+
+CREATE TABLE temp.new_vendor AS 
+SELECT * FROM vendor;
+
+INSERT INTO temp.new_vendor (vendor_id, vendor_name, vendor_type, vendor_owner_first_name, vendor_owner_last_name)
+VALUES (10, 'Thomass Superfood Store', 'a Fresh Focused store', 'Thomas', 'Rosenthal');
+>>>>>>> Stashed changes
 
 
 
