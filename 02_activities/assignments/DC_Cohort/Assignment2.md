@@ -56,7 +56,9 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+To manage customer addresses, two distinct architectures can be utilized depending on the requirement for historical data.
+The first architecture involves a Type 1 Slowly Changing Dimension. In this model, the customer address table maintains a one-to-one relationship with the customer table. When a customer moves, the existing record is updated with new details, effectively overwriting the previous location. While this keeps the database structure simple, it sacrifices historical accuracy because the bookstore no longer retains a record of where the customer resided previously.
+The second architecture utilizes a Type 2 Slowly Changing Dimension to retain a full history of changes. In this model, the customer address table supports a one-to-many relationship where each customer can have multiple historical records. Instead of overwriting, a new row is inserted for every address change. This architecture uses administrative columns, like start_date, end_date, and a boolean is_current flag, to identify the active residence. This allows the bookstore to identify exactly where a customer lived when any specific order was placed in the past, facilitating more accurate longitudinal reporting.
 ```
 
 ***
@@ -191,5 +193,8 @@ Consider, for example, concepts of labour, bias, LLM proliferation, moderating c
 
 
 ```
-Your thoughts...
+In Vicki Boykis’s article, she provides a powerful critique of the high tech veneer of artificial intelligence, revealing that these systems are fundamentally built upon massive amounts of manual human labor. Boykis argues that machine learning frequently struggles with tasks requiring human intuition and dexterity because robots cannot easily navigate the vast variables and imperfections inherent in the physical or social world. Training datasets like ImageNet were not created by autonomous machines, but by thousands of invisible workers on platforms. These realities highlight critical ethical issues regarding the exploitation of ghost labor, the lack of transparency in automated decision making, and the inescapable presence of human prejudice within supposedly objective algorithms.
+In my field of educational policy, this human in the loop reality introduces significant ethical risks. Because every layer of a neural network is infused with politics and human choice, AI systems often inherit and amplify societal biases. For example, if training data is grounded in historical medical models of disability, an AI might categorize students with special needs through a "deficit" lens rather than a supportive, strength based one. When these biased models are used to predict student outcomes or determine resource allocation, they risk automating discrimination under the guise of efficiency.
+Furthermore, because these datasets are curated by human workers, marginalized groups often have fewer opportunities to influence the design process. This creates a dangerous disconnect where AI systems are designed without input from those most affected by them: disabled individuals, students from marginalized communities, and teachers. As Boykis notes, the "person subtree" of these massive datasets has historically included offensive or unsound classifications that can harm these very groups.
+In educational leadership, we must recognize that AI is not a neutral arbiter; it is a reflection of the manual labor and subjective biases of the people who built its foundations. True innovation in educational AI requires moving away from invisible labor toward a participatory design process that includes the voices of educators and students.
 ```
